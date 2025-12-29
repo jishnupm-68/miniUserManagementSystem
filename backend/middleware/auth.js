@@ -7,7 +7,7 @@ const auth = async(req,res, next)=>{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {_id} = decoded;
         const user = await User.findById({_id:_id})
-        if(!user) res.json({
+        if(!user) res.status(401).json({
             status:false,message:"Please login"
         })
         req.user = user;
@@ -15,7 +15,7 @@ const auth = async(req,res, next)=>{
         next();
     } catch (error) {
         console.log("Error in auth: "+error.message);
-        res.json({
+        res.status(500).json({
             status:false,
             message:"Error in authentication, please login"
         })
