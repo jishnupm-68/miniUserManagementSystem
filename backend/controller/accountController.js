@@ -1,4 +1,4 @@
-const isPasswordStrength = require("../helper/passwordStrengthChecker")
+
 const User = require("../model/userSchema")
 const hashGenerator = require("../helper/hashGenerator")
 const validator = require("validator");
@@ -6,16 +6,16 @@ const validator = require("validator");
 const signup = async(req, res)=>{
     try {
         const {email, password, role, status, fullName, adminValidator} = req.body;
-        if(!email || !password || !role|| !fullName ) return res.json({
+        if(!email || !password || !role|| !fullName ) return res.status(400).json({
             status:false,
             message:"Required fields must be filled"
         })
-        if(!validator.isEmail(email)) return res.json({status:false, message:"Enter a valid Email address"})
-        if(!isPasswordStrength(password)) return res.json({
+        if(!validator.isEmail(email)) return res.status(400).json({status:false, message:"Enter a valid Email address"})
+        if(!validator.isStrongPassword(password)) return res.status(400).json({
             status:false,
             message:"Password must contain uppercase, lowercase, number, and special character"
         })
-        if(adminValidator.length>0 && adminValidator !==process.env.ADMIN_VALIDATOR) return res.json({
+        if( (role=="admin") && (adminValidator !==process.env.ADMIN_VALIDATOR)) return res.status(401).json({
             status:false,
             message:"The secret key is not matching, please try again"
         })
@@ -47,7 +47,7 @@ const signup = async(req, res)=>{
             });
 
         console.log("account created successfully: ");
-        return res.json({
+        return res.status(201).json({
             status:true,
             message:"Account created successfully",
             data:data
@@ -69,12 +69,12 @@ const login  = async(req, res)=>{
             message:"Input must be filled"
         })
         const existingUser = await User.findOne({email:email}).select("+password")
-        if(!existingUser) return res.json({
+        if(!existingUser) return res.status(404).json({
             status:false,
             message:"Please enter a registered email"
         })
         const result = existingUser.comparePassword(password);
-        if(!result) return res.json({
+        if(!result) return res.status(401).json({
             status:false,
             message:"Login failed , invalid credentials"
         })
@@ -82,14 +82,14 @@ const login  = async(req, res)=>{
         console.log("login success  ", user);
         const token = await user.getJwt()
         res.cookie("token", token);
-        return res.json({
+        return res.status(200).json({
             status:true,
             message:"Login success",
             data:user
         })
     } catch (error) {
         console.log("error while login ", error.message);
-        res.json({
+        res.status(500).json({
             status:false,
             message:"Error while login " + error.message
         })
@@ -101,10 +101,10 @@ const logout = async(req,res)=>{
             httpOnly: true,
             expires: new Date(0)
             });
-        res.status(200).json({ status:true, message: "Logged out successfully" });
+        res.status(204).json({ status:true, message: "Logged out successfully" });
     } catch (error) {
         console.log("error while logout "+error.message);
-        res.json({status:false, message:"Error while logout"});
+        res.status(500).json({status:false, message:"Error while logout"});
     }
 }
 module.exports={
