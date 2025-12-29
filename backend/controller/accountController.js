@@ -73,7 +73,7 @@ const login  = async(req, res)=>{
             status:false,
             message:"Please enter a registered email"
         })
-        const result = existingUser.comparePassword(password);
+        const result = await existingUser.comparePassword(password);
         if(!result) return res.status(401).json({
             status:false,
             message:"Login failed , invalid credentials"

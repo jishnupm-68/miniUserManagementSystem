@@ -6,8 +6,15 @@ const accountRouter = require("./routes/accountRouter");
 const cookieParser = require("cookie-parser");
 const adminRouter = require("./routes/adminRouter");
 const userRouter = require("./routes/userRouter");
+const cors = require("cors");
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN_URL,
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  credentials: true
+}));
+
 app.use("/", accountRouter); 
 app.use("/", adminRouter)
 app.use("/", userRouter)
