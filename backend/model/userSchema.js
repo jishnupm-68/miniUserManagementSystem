@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
+        required:true,
+        select:false
     },
     fullName: {
         type:String,
@@ -35,7 +36,7 @@ const userSchema = new mongoose.Schema({
         type:Date,
         default:null
     }
-})
+}, {timestamps:true})
 
 userSchema.methods.getJwt = async function(){
     let user = this;
@@ -55,3 +56,5 @@ userSchema.methods.comparePassword = async function(inputPassword){
 }
 
 const User = mongoose.model("User", userSchema);
+
+module.exports = User
