@@ -1,15 +1,16 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/userSchema");
 
-const auth = async(req,res, next)=>{
+const adminAuth = async(req,res, next)=>{
     try {
         const {token} = req.cookies;
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const {_id} = decoded;
         const user = await User.findById({_id:_id})
-        if(!user) res.status(401).json({
+        if((!user) || (user.role != "admin") ) return res.status(401).json({
             status:false,message:"Please login"
         })
+
         req.user = user;
         console.log("auth success")
         next();
@@ -23,5 +24,5 @@ const auth = async(req,res, next)=>{
 }
 
 module.exports = {
-    auth
+    adminAuth
 }
