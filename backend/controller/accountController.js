@@ -101,7 +101,7 @@ const logout = async(req,res)=>{
             httpOnly: true,
             expires: new Date(0)
             });
-        res.status(204).json({ status:true, message: "Logged out successfully" });
+        res.status(200).json({ status:true, message: "Logged out successfully" });
     } catch (error) {
         console.log("error while logout "+error.message);
         res.status(500).json({status:false, message:"Error while logout"});
