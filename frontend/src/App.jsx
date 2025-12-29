@@ -1,9 +1,13 @@
-import React from 'react'
+
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import adminRouter from './routes/AdminRouter'
 
 const App = () => {
+  const router = createBrowserRouter([...adminRouter])
   return (
-    <div className='bg-red-500 text-white'> 
-      hello
+    <div > 
+      <RouterProvider router={router} />
+     
     </div>
   )
 }
