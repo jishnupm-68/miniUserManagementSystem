@@ -1,6 +1,8 @@
 const isPasswordStrength = require("../helper/passwordStrengthChecker")
 const User = require("../model/userSchema")
 const hashGenerator = require("../helper/hashGenerator")
+const validator = require("validator");
+
 const signup = async(req, res)=>{
     try {
         const {email, password, role, status, fullName, adminValidator} = req.body;
@@ -8,6 +10,7 @@ const signup = async(req, res)=>{
             status:false,
             message:"Required fields must be filled"
         })
+        if(!validator.isEmail(email)) return res.json({status:false, message:"Enter a valid Email address"})
         if(!isPasswordStrength(password)) return res.json({
             status:false,
             message:"Password must contain uppercase, lowercase, number, and special character"
@@ -35,7 +38,7 @@ const signup = async(req, res)=>{
             status:false,
             message:"Unable to create new user"
         })
-        const data =await User.findOne({email:email})
+        const data =await User.findOneAndUpdate({email:email},{lastLogin:new Date()})
         const token = await saveUser.getJwt()
         res.cookie("token", token, {
             httpOnly: true,
@@ -43,7 +46,7 @@ const signup = async(req, res)=>{
             sameSite: "strict"
             });
 
-        console.log("account created successfully: " ,token);
+        console.log("account created successfully: ");
         return res.json({
             status:true,
             message:"Account created successfully",
