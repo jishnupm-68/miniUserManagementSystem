@@ -9,12 +9,24 @@ const userRouter = require("./routes/userRouter");
 const cors = require("cors");
 app.use(express.json());
 app.use(cookieParser());
-let allowedOrigin = [ process.env.CORS_ORIGIN_URL,  process.env.CORS_ORIGIN_URL_PRODUCTION]
+const allowedOrigins = [
+  process.env.CORS_ORIGIN_URL,            
+  process.env.CORS_ORIGIN_URL_PRODUCTION  
+];
+
 app.use(cors({
-  origin: allowedOrigin,
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true); 
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true
 }));
+
 
 app.use("/", accountRouter); 
 app.use("/", adminRouter)
