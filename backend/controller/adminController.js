@@ -16,6 +16,7 @@ const getData = async (req, res) => {
     res.status(200).json({
       status: true,
       message: "data loaded successfully",
+      user:currentUser,
       data,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
