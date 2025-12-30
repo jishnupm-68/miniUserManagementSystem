@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Response from './Response'
-import { clearUser } from '../../store/slice/userSlice';
-import { useNavigate } from 'react-router';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { clearUser } from "../../store/slice/userSlice";
+import Response from "../shared/Response";
 
-const Header = () => {
+const UserHeader = () => {
  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const user = useSelector(store=>store.user)
   const [status, setStatus] = useState()
@@ -17,7 +17,7 @@ const Header = () => {
     setResponse(message)
   }
   const handleLogin = ()=>{
-    navigate("/admin/login")
+    navigate("/user/login")
   }
   const handleLogout = async()=>{
     try {
@@ -32,7 +32,7 @@ const Header = () => {
       if(logoutJson.status){
         dispatch(clearUser())
         setTimeout(() => {
-          navigate("/admin/login")
+          navigate("/user/login")
         }, 3000);
       }
       setFunction(logoutJson.status, logoutJson.message)
@@ -67,4 +67,5 @@ const Header = () => {
   )
 }
 
-export default Header
+export default UserHeader
+

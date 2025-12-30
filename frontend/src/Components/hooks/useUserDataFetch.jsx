@@ -1,20 +1,18 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addData } from "../../store/slice/dataSlice";
 import { addUser } from "../../store/slice/userSlice";
 
-const useAdminDataFetch = (setFunction) => {
+const useUserDataFetch = (setFunction) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const dispatch = useDispatch();
   try {
     const fetchUser = async () => {
-      const data = await fetch(apiUrl + "/admin/getData", {
+      const data = await fetch(apiUrl + "/user/getData", {
         method: "GET",
         credentials: "include",
       });
       const dataJson = await data.json();
-      dispatch(addData(dataJson));
-      dispatch(addUser(dataJson.user));
+      dispatch(addUser(dataJson.data));
       setFunction(dataJson.status, dataJson.message);
     };
     useEffect(() => {
@@ -29,4 +27,4 @@ const useAdminDataFetch = (setFunction) => {
   }
 };
 
-export default useAdminDataFetch;
+export default useUserDataFetch;
