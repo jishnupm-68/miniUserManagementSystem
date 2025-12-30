@@ -6,17 +6,15 @@ const getData = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 10;
     const skip = (page - 1) * limit;
-
+    const filter = { email: { $ne: currentUser.email } };
     const [data, total] = await Promise.all([
-      User.find({ email: { $ne: currentUser.email } })
-        .skip(skip)
-        .limit(limit),
-      User.countDocuments(),
+      User.find(filter).skip(skip).limit(limit),
+      User.countDocuments(filter),
     ]);
     res.status(200).json({
       status: true,
       message: "data loaded successfully",
-      user:currentUser,
+      user: currentUser,
       data,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
@@ -44,7 +42,7 @@ const updateStatus = async (req, res) => {
       return res
         .status(500)
         .json({ status: false, message: "status updation failed" });
-    console.log("updatedData:", updatedUser);
+    console.log("updatedData:");
     return res.status(200).json({
       message: "status updated successfully",
       status: true,
