@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import {isEmail, isStrongPassword} from "validator"
-import { Link } from 'react-router'
-import InputWithLabel from '../shared/InputWithLabel'
-import Response from '../shared/Response';
+import { Link, useNavigate } from 'react-router'
+import InputWithLabel from '../../shared/InputWithLabel'
+import Response from '../../shared/Response';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../../store/slice/userSlice';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [responseMessage, setResponseMessage] = useState("");
     const [responseStatus, setResponseStatus] = useState("");
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate()
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const setFunction = (status, message)=>{
         setResponseMessage(message)
@@ -35,12 +41,21 @@ const Login = () => {
                     }
                 )
                 const fetchLoginJson = await fetchLogin.json();
+                dispatch(addUser(fetchLoginJson.data))
                 setFunction(fetchLoginJson.status, fetchLoginJson.message)
             }  
         } catch (error) {
             setFunction(error.status, error.message)     
         }
     }
+    useEffect(()=>{
+      const timer = setTimeout(() => {
+        if(responseStatus){
+        navigate("/admin/dashboard")
+        } 
+      }, 3000);
+      return ()=>timer
+    },[responseStatus])
   return (
           <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -75,7 +90,7 @@ const Login = () => {
           </form>
 
           <p className="mt-10 text-center text-sm/6 text-gray-400">
-            Not a member?{' '}
+            Not a Admin?{' '}
             <Link to={'/admin/signup'} className="font-semibold text-indigo-400 hover:text-indigo-300">
               Sign up here
             </Link>

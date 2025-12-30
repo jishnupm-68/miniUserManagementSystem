@@ -8,9 +8,11 @@ const Response = ({status, message, clearResponse}) => {
         return ()=>timer
     },[message])
   return (
-    <div role="alert"className={ " mt-2 p-2 alert " + (status? "alert-success" : " alert-warning")} >
+    <div>
+      {message && <div role="alert"className={ " mt-2 p-2 alert alert-outline " + (status? " alert-success" : " alert-error")} >
   <span>{message}</span>
-</div>
+</div>}
+    </div>
   )
 }
 

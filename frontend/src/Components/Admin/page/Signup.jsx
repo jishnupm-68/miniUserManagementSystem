@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import InputWithLabel from '../shared/InputWithLabel';
+import InputWithLabel from '../../shared/InputWithLabel';
 import { Link } from 'react-router';
 import isEmail from 'validator/lib/isEmail';
 import { isStrongPassword } from 'validator';
-import Response from '../shared/Response';
+import Response from '../../shared/Response';
+import { useEffect } from 'react';
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const Signup = () => {
   const [adminValidator, setAdminValidator] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState("");
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const setFunction = (status, message)=>{
     setResponseMessage(message)
@@ -57,13 +59,17 @@ const Signup = () => {
         setResponseStatus(error.status);
     }
   }
+  useEffect(()=>{
+    if(password==confirmPassword) setPasswordMatch("") 
+    else setPasswordMatch("Password not match")
+  },[confirmPassword])
     return (
-            <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 ">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign up here</h2>
         </div>
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form  className="space-y-6">
+          <div className="mt-10  sm:mx-auto sm:w-full sm:max-w-sm">
+            <form  className="space-y-6 ">
                 <InputWithLabel 
               legendText={"Full name"} 
               typeText={'text'} 
@@ -86,7 +92,8 @@ const Signup = () => {
                typeText={'password'} 
               setInput={setConfirmPassword}
               inputValue = {confirmPassword}/>
-
+              {passwordMatch && <p className='text-red-600'>
+                {passwordMatch}</p>}
               <InputWithLabel 
               legendText={"Admin secret"}
                typeText={'password'} 
@@ -108,7 +115,7 @@ const Signup = () => {
             </form>
   
             <p className="mt-10 text-center text-sm/6 text-gray-400">
-              Already a member?{' '}
+              Already a Admin?{' '}
               <Link to={'/admin/login'} className="font-semibold text-indigo-400 hover:text-indigo-300">
                 Login here
               </Link>
