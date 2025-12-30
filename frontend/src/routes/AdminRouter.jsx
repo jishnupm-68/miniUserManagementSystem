@@ -15,19 +15,7 @@ const adminRouter = [
                 ]
             }
         ],
-
     }
-  
-//     {
-//         path:"/admin/", element:<AdminPage />,
-//         children:[
-//             {path:"/admin/login", element:<Login />},
-//             {path:"/admin/signup", element:<Signup />},
-//             {path:"/admin/Dashboard", element:<Dashboard />}
-//         ],
-        
-
-//     }
 ]
 
 
