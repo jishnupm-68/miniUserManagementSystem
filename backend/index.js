@@ -10,8 +10,8 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cookieParser());
 const allowedOrigins = [
-  process.env.CORS_ORIGIN_URL,            
-  process.env.CORS_ORIGIN_URL_PRODUCTION  
+  process.env.CORS_ORIGIN_URL,          
+  process.env.CORS_ORIGIN_URL_PRODUCTION
 ];
 
 app.use(cors({
@@ -23,8 +23,9 @@ app.use(cors({
       callback(new Error("Not allowed by CORS"));
     }
   },
+  credentials: true,
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  credentials: true
+  allowedHeaders: ["Content-Type", "Authorization"] 
 }));
 
 
