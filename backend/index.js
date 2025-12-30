@@ -22,8 +22,8 @@ const PORT = process.env.PORT || 5000;
 connectDb() 
 .then(() => { 
     console.log("db connected successfully");
-    app.listen(PORT, () => { 
-        console.log(`Server running on port ${PORT}`); }); 
+//     app.listen(PORT, () => { 
+//         console.log(`Server running on port ${PORT}`); }); 
 }) 
 .catch((e) => { 
     console.log("Error while connecting to db:", e.message); 
