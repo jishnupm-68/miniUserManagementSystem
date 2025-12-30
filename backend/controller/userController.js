@@ -21,8 +21,9 @@ const getUserData =  async(req,res)=>{
 
 const editUserData = async (req,res)=>{
     try {
+        let user = req.user;
         const {email, fullName } = req.body;
-        const existingUser = await User.findOne({email:email});
+        const existingUser = await User.findOne({email:email, _id:{$ne:user._id}});
         if(existingUser) return res.status(409).json({
             status:false,message:"This email already exists"
         })
@@ -42,7 +43,7 @@ const editUserData = async (req,res)=>{
             message:"Updation failed"
         })
         console.log("user data updated successfully");
-        res.status(200).json({
+        return res.status(200).json({
             status:true,
             message:"User data updated successfully",
             data:updatedUser

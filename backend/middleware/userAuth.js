@@ -10,6 +10,10 @@ const userAuth = async(req,res, next)=>{
         if((!user) || (user.role != "user") ) return res.status(401).json({
             status:false,message:"Please login"
         })
+        if(user.status=="inactive") return res.status(400).json({
+            status:false,
+            message:"Account inactive please contact admin"
+        })
 
         req.user = user;
         console.log("auth success")

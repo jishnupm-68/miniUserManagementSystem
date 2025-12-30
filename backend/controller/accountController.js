@@ -40,11 +40,7 @@ const signup = async(req, res)=>{
         })
         const data =await User.findOneAndUpdate({email:email},{lastLogin:new Date()})
         const token = await saveUser.getJwt()
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict"
-            });
+        res.cookie("token", token);
 
         console.log("account created successfully: ");
         return res.status(201).json({
@@ -72,6 +68,9 @@ const login  = async(req, res)=>{
         if(!existingUser) return res.status(404).json({
             status:false,
             message:"Please enter a registered email"
+        })
+        if(existingUser.status=="inactive") return res.status(400).json({
+            status:false, message:"Account is inactive please contact admin"
         })
         const result = await existingUser.comparePassword(password);
         if(!result) return res.status(401).json({
