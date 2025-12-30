@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Response from "../../shared/Response";
 import useUserDataFetch from "../../hooks/useUserDataFetch";
 import EditPassword from "./EditPassword";
@@ -14,37 +14,25 @@ const UserDashBoard = () => {
     setMessage(message);
   };
 
-  useUserDataFetch(setFunction);  
+  useUserDataFetch(setFunction);
   const user = useSelector((store) => store.user);
-  
-  if (!user) return null; 
 
-
-
+  if (!user) return null;
 
   return (
     <div className="bg-gray-700 px-5 py-5">
-  <div className="w-full mb-4">
-    <Response
-      status={status}
-      message={message}
-      clearResponse={setMessage}
-    />
-  </div>
-
-  {/* RESPONSIVE GRID */}
-  <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-    
-    {/* LEFT CARD – Password */}
-    
-    <EditPassword  setFunction={setFunction} />
-    {/* RIGHT CARD – Profile */}
-    <EditProfile setFunction={setFunction}/>
+      <div className="w-full mb-4">
+        <Response
+          status={status}
+          message={message}
+          clearResponse={setMessage}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <EditPassword setFunction={setFunction} />
+        <EditProfile setFunction={setFunction} />
+      </div>
     </div>
-
-</div>
-
-    
   );
 };
 

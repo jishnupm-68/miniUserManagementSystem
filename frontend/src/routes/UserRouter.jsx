@@ -4,8 +4,6 @@ import UserSignup from "../Components/User/Page/UserSignup"
 import UserPage from "../Components/User/UserPage"
 import UserProtectRoute from "../Components/User/UserProtectRoute"
 
-
-
 const userRouter = [
     {path:"/user/", element:<UserPage />,
         children:[
@@ -19,6 +17,5 @@ const userRouter = [
         ],
     }
 ]
-
 
 export default userRouter

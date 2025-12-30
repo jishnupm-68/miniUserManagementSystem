@@ -1,12 +1,10 @@
-
-
 const InputWithLabel = ({
   legendText,
   typeText = "text",
   setInput,
   optional = false,
   inputValue,
-  edit=true
+  edit = true,
 }) => {
   return (
     <div>
@@ -32,7 +30,6 @@ const InputWithLabel = ({
                     sm:text-sm/6
                     disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100"
         />
-
       </div>
       {optional && <p className="label">Optional</p>}
     </div>

@@ -63,7 +63,7 @@ const UserSignup = () => {
         if (fetchJson.status) {
           dispatch(addUser(fetchJson.data));
           setTimeout(() => {
-            navigate("/user/Dashboard");
+            navigate("/user/login");
           }, 5000);
         }
         setFunction(fetchJson.status, fetchJson.message);
