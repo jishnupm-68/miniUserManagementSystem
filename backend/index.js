@@ -9,8 +9,9 @@ const userRouter = require("./routes/userRouter");
 const cors = require("cors");
 app.use(express.json());
 app.use(cookieParser());
+let allowedOrigin = [ process.env.CORS_ORIGIN_URL,  process.env.CORS_ORIGIN_URL_PRODUCTION]
 app.use(cors({
-  origin: process.env.CORS_ORIGIN_URL,
+  origin: allowedOrigin,
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true
 }));
