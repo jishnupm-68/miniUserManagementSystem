@@ -13,7 +13,6 @@ const allowedOrigins = [
   process.env.CORS_ORIGIN_URL,          
   process.env.CORS_ORIGIN_URL_PRODUCTION
 ];
-
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); 

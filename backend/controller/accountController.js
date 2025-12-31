@@ -52,7 +52,11 @@ const signup = async (req, res) => {
       { lastLogin: new Date() }
     );
     const token = await saveUser.getJwt();
-    res.cookie("token", token,{httpOnly: false});
+    res.cookie("token", token, {
+      httpOnly: false,   
+      secure: true,      
+      sameSite: "None",  
+    });
 
     console.log("account created successfully: ");
     return res.status(201).json({
@@ -102,7 +106,11 @@ const login = async (req, res) => {
     );
     console.log("login success  ");
     const token = await user.getJwt();
-    res.cookie("token", token,{httpOnly: false});
+    res.cookie("token", token, {
+      httpOnly: false,   
+      secure: true,      
+      sameSite: "None",  
+    });
     return res.status(200).json({
       status: true,
       message: "Login success",
@@ -122,6 +130,8 @@ const logout = async (req, res) => {
     res.cookie("token", "", {
       httpOnly: false, 
       expires: new Date(0),
+      secure: true,      
+      sameSite: "None",  
     });
     res.status(200).json({ status: true, message: "Logged out successfully" });
   } catch (error) {
