@@ -20,7 +20,7 @@ const UserDashBoard = () => {
   if (!user) return null;
 
   return (
-    <div className="bg-gray-700 px-5 py-5">
+    <div className=" px-5 py-5">
       <div className="w-full mb-4">
         <Response
           status={status}
